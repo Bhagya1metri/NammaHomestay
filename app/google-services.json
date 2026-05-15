@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209469320234",
+    "project_id": "nammahomestay-aa07c",
+    "storage_bucket": "nammahomestay-aa07c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209469320234:android:28efa3198e057865d76753",
+        "android_client_info": {
+          "package_name": "com.example.nammahomestay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSDTFX4FiUTJUP4SVg1n-njO2-imY8bpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
