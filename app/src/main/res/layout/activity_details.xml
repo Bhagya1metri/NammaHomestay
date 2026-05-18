@@ -9,11 +9,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/detailImage"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop" />
+
+            <CheckBox
+                android:id="@+id/favoriteCb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="16dp"
+                android:button="@android:drawable/btn_star"
+                android:buttonTint="#FFD700" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/detailName"
@@ -23,6 +37,29 @@
             android:textStyle="bold"
             android:textColor="#5E35B1"
             android:padding="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/verifiedBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/checkbox_on_background"
+                android:tint="#4CAF50"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/verified_host"
+                android:textColor="#4CAF50"
+                android:textStyle="bold"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/detailPrice"
@@ -53,6 +90,37 @@
             android:textSize="18sp"
             android:padding="16dp"/>
 
+        <!-- Local Guide Section -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D1C4E9"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/local_guide"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#5E35B1"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/detailNearby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="16dp"/>
+
+        <TextView
+            android:id="@+id/detailSecret"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="16dp"/>
+
         <Button
             android:id="@+id/contactBtn"
             android:layout_width="match_parent"
@@ -69,9 +137,135 @@
             android:text="Call Host"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="#5E35B1"
             android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/addToFavoritesBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_favorites"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#FFD700"
+            android:textColor="#000000"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D1C4E9"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reviews_ratings"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#5E35B1"
+            android:paddingStart="16dp"
+            android:paddingBottom="8dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/noReviewsTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_reviews"
+            android:padding="16dp"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#EDE7F6"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_a_review"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <RatingBar
+                android:id="@+id/submitRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_gravity="center_horizontal"/>
+
+            <EditText
+                android:id="@+id/reviewCommentEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/share_experience"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:gravity="top"
+                android:background="@android:drawable/editbox_background_normal"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"/>
+
+            <Button
+                android:id="@+id/submitReviewBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit_review"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#673AB7"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Inquiry Box Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#E1F5FE"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inquiry_box"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/inquiryEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/inquiry_hint"
+                android:inputType="textMultiLine"
+                android:lines="2"
+                android:background="@android:drawable/editbox_background_normal"
+                android:padding="8dp"/>
+
+            <Button
+                android:id="@+id/sendInquiryBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_inquiry"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#0288D1"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">NammaHomeStay</string>
+    <string name="empty_response">Empty response</string>
+    <string name="ai_assistant">AI Assistant</string>
+    <string name="favorites">Favorites</string>
+    <string name="history">History</string>
+    <string name="booking_history">Booking History</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="cardholder_name">Cardholder Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="expiry_date">MM/YY</string>
+    <string name="cvv">CVV</string>
+    <string name="pay_confirm">Pay &amp; Confirm Booking</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="ai_thinking">Thinking&#8230;</string>
+    <string name="ai_error">Error: %1$s\n\nPlease check your internet connection or API key.</string>
+    <string name="enter_question">Please enter a question</string>
+    <string name="price_format">Price: %1$s</string>
+    <string name="date_format">Date: %1$s</string>
+    <string name="facilities_format">Facilities:\n%1$s</string>
+    <string name="menu_format">Today\'s Menu:\n%1$s</string>
+    <string name="reviews_ratings">Reviews &amp; Ratings</string>
+    <string name="add_a_review">Add a Review</string>
+    <string name="share_experience">Share your experience&#8230;</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="inquiry_box">Inquiry Box</string>
+    <string name="no_reviews">No reviews yet. Be the first to review!</string>
+    <string name="local_guide">Local Guide</string>
+    <string name="nearby_places">Nearby Tourist Places:\n%1$s</string>
+    <string name="secret_spots">Secret Local Spots:\n%1$s</string>
+    <string name="inquiry_hint">Ask about availability, food, or rules&#8230;</string>
+    <string name="send_inquiry">Send Inquiry</string>
+    <string name="verified_host">Verified HomeStay</string>
+    <string name="update_menu">Update Today\'s Menu</string>
 </resources>

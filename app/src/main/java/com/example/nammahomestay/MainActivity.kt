@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     val images = listOf(
         R.drawable.homestay,
         R.drawable.homestay1,
-        R.drawable.homestay2
+        R.drawable.homestay2,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,25 +30,30 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
-
         val aiBtn = findViewById<Button>(R.id.aiBtn)
+        val favoritesBtn = findViewById<Button>(R.id.favoritesBtn)
+        val historyBtn = findViewById<Button>(R.id.historyBtn)
 
         // LOGOUT BUTTON
         logoutBtn.setOnClickListener {
-
             FirebaseAuth.getInstance().signOut()
-
             startActivity(Intent(this, LoginActivity::class.java))
-
             finish()
         }
 
         // AI BUTTON
         aiBtn.setOnClickListener {
+            startActivity(Intent(this, AiActivity::class.java))
+        }
 
-            startActivity(
-                Intent(this, AiActivity::class.java)
-            )
+        // FAVORITES BUTTON
+        favoritesBtn.setOnClickListener {
+            startActivity(Intent(this, FavoritesActivity::class.java))
+        }
+
+        // HISTORY BUTTON
+        historyBtn.setOnClickListener {
+            startActivity(Intent(this, BookingHistoryActivity::class.java))
         }
 
         homestayList = arrayListOf()
@@ -61,34 +66,32 @@ class MainActivity : AppCompatActivity() {
 
         database = FirebaseDatabase.getInstance().getReference("homestays")
 
-        database.addValueEventListener(object : ValueEventListener {
+        database.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    homestayList.clear()
 
-            override fun onDataChange(snapshot: DataSnapshot) {
+                    var index = 0
 
-                homestayList.clear()
+                    for (data in snapshot.children) {
+                        val homestay = data.getValue(Homestay::class.java)
 
-                var index = 0
+                        if (homestay != null) {
+                            homestay.image = images[index % images.size]
 
-                for (data in snapshot.children) {
+                            homestayList.add(homestay)
 
-                    val homestay = data.getValue(Homestay::class.java)
-
-                    if (homestay != null) {
-
-                        homestay.image = images[index % images.size]
-
-                        homestayList.add(homestay)
-
-                        index++
+                            index++
+                        }
                     }
+
+                    adapter.notifyDataSetChanged()
                 }
 
-                adapter.notifyDataSetChanged()
-            }
+                override fun onCancelled(error: DatabaseError) {
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
+                }
+            },
+        )
     }
 }

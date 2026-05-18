@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class HomestayAdapter(private var homestayList: List<Homestay>) :
     RecyclerView.Adapter<HomestayAdapter.HomestayViewHolder>() {
@@ -30,7 +31,14 @@ class HomestayAdapter(private var homestayList: List<Homestay>) :
 
         val homestay = homestayList[position]
 
-        holder.image.setImageResource(homestay.image)
+        if (homestay.imageUrl.isNotEmpty()) {
+            Glide.with(holder.itemView.context)
+                .load(homestay.imageUrl)
+                .placeholder(R.drawable.homestay)
+                .into(holder.image)
+        } else {
+            holder.image.setImageResource(homestay.image)
+        }
 
         holder.name.text = homestay.name
         holder.price.text = homestay.price
@@ -42,9 +50,13 @@ class HomestayAdapter(private var homestayList: List<Homestay>) :
             intent.putExtra("name", homestay.name)
             intent.putExtra("price", homestay.price)
             intent.putExtra("image", homestay.image)
+            intent.putExtra("imageUrl", homestay.imageUrl)
             intent.putExtra("description", homestay.description)
             intent.putExtra("facilities", homestay.facilities)
             intent.putExtra("menu", homestay.menu)
+            intent.putExtra("nearby", homestay.nearbyPlaces)
+            intent.putExtra("secret", homestay.secretSpots)
+            intent.putExtra("verified", homestay.isVerified)
 
             holder.itemView.context.startActivity(intent)
         }
@@ -53,12 +65,5 @@ class HomestayAdapter(private var homestayList: List<Homestay>) :
     override fun getItemCount(): Int {
 
         return homestayList.size
-    }
-
-    fun setFilteredList(filteredList: List<Homestay>) {
-
-        homestayList = filteredList
-
-        notifyDataSetChanged()
     }
 }

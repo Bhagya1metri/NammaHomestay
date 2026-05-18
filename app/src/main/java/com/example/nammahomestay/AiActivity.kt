@@ -5,13 +5,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import org.json.JSONObject
-import java.io.IOException
+import androidx.lifecycle.lifecycleScope
+import com.google.ai.client.generativeai.GenerativeModel
+import kotlinx.coroutines.launch
 
 class AiActivity : AppCompatActivity() {
 
+    // Your Gemini API Key
     private val apiKey = "AIzaSyAPxPxm71Sb9URdEUSHcP5Cw-oW8KCCTtc"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,73 +22,43 @@ class AiActivity : AppCompatActivity() {
         val askBtn = findViewById<Button>(R.id.askBtn)
         val answerTv = findViewById<TextView>(R.id.answerTv)
 
+        // Gemini AI Model
+        val generativeModel = GenerativeModel(
+            modelName = "gemini-1.5-flash",
+            apiKey = apiKey,
+        )
+
         askBtn.setOnClickListener {
+            val question = questionEt.text.toString().trim()
 
-            val question = questionEt.text.toString()
+            if (question.isBlank()) {
+                questionEt.error = getString(R.string.enter_question)
+                return@setOnClickListener
+            }
 
-            val client = OkHttpClient()
+            // Show loading state
+            answerTv.setText(R.string.ai_thinking)
+            askBtn.isEnabled = false
 
-            val json = """
-                {
-                  "contents": [
-                    {
-                      "parts": [
-                        {
-                          "text": "You are a travel assistant for homestay users. Answer this clearly: $question"
-                        }
-                      ]
-                    }
-                  ]
-                }
-            """.trimIndent()
+            lifecycleScope.launch {
+                try {
+                    val prompt =
+                        "You are a helpful travel assistant for the Namma HomeStay app. " +
+                                "Answer this query clearly and concisely: $question"
 
-            val body = RequestBody.create(
-                "application/json".toMediaType(),
-                json
-            )
-
-            val request = Request.Builder()
-                .url("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=$apiKey")
-                .post(body)
-                .build()
-
-            client.newCall(request).enqueue(object : Callback {
-
-                override fun onFailure(call: Call, e: IOException) {
-
+                    val response = generativeModel.generateContent(prompt)
+                    
                     runOnUiThread {
-                        answerTv.text = e.message
+                        answerTv.text = response.text ?: getString(R.string.empty_response)
+                        askBtn.isEnabled = true
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        answerTv.text = getString(R.string.ai_error, e.message)
+                        askBtn.isEnabled = true
                     }
                 }
-
-                override fun onResponse(call: Call, response: Response) {
-
-                    val responseBody = response.body?.string()
-
-                    try {
-
-                        val jsonObject = JSONObject(responseBody)
-
-                        val text = jsonObject
-                            .getJSONArray("candidates")
-                            .getJSONObject(0)
-                            .getJSONObject("content")
-                            .getJSONArray("parts")
-                            .getJSONObject(0)
-                            .getString("text")
-
-                        runOnUiThread {
-                            answerTv.text = text
-                        }
-
-                    } catch (e: Exception) {
-
-                        runOnUiThread {
-                            answerTv.text = responseBody
-                        }
-                    }
-                }
-            })
+            }
         }
     }
 }
